@@ -41,10 +41,6 @@ git commit -m 'practice pathscope report by script'
 
 git push origin master
 
-ndalton95
-
-Hollyd123
-
 cd ..
 
 rm 941017B-31_L7.LB27_2.fastq practice.fastq outalign.sam
