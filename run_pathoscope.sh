@@ -6,12 +6,12 @@
 #cd /Volummes/[...]/[...].fastq.gz [...].fastq.gz
 # gunzip [...].fastq.gz
 
-cp 941017B-31_L7.LB27_2.fastq.gz /Users/jlab/nick/patho_practice
+cp 941017B-31_L7.LB27_2.fastq /Users/jlab/nick/patho_practice
 # copies to correct folder under me
 
 cd /Users/jlab/nick/patho_practice
 
-gunzip 941017B-31_L7.LB27_2.fastq.gz
+# gunzip 941017B-31_L7.LB27_2.fastq.gz
 
 head -4000 941017B-31_L7.LB27_2.fastq > practice.fastq
 
