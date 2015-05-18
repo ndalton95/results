@@ -21,8 +21,7 @@ head -4000 941017B-31_L7.LB27_2.fastq > practice.fastq
 # pathoscope MAP -U $FILENAME [....] -expTag $FILENAME  # outputs fastq1.sam
 #(without tag, outputs outalign.sam)
 
-pathoscope MAP -U practice.fastq -targetIndexPrefix virus_nt_ti
--indexDir ~evan/apps/genome_library -btHome /Users/evan/apps/bowtie2-2.1.0/
+pathoscope MAP -U practice.fastq -targetIndexPrefix virus_nt_ti -indexDir ~evan/apps/genome_library -btHome /Users/evan/apps/bowtie2-2.1.0/
 
 # pathoscope ID -alignFile [$FILENAME.sam] --noUpdatedAlign [?? checkthis]
 # -expTag [add tag]
