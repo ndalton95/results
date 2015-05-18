@@ -1,18 +1,18 @@
 #!/bin/bash
 
+#Define pathoscope location
+pathoscope=/Users/evan/apps/pathoscope2/pathoscope/./pathoscope.py
+
+#Go to home directory:
+cd /Users/jlab/nick/patho_practice
+
 ### Download FASTQ, unzip, make smaller version (remove later)
 # Now just download a single fastq file (change this later to loop over
 # all files)
-#cd /Volummes/[...]/[...].fastq.gz [...].fastq.gz
-# gunzip [...].fastq.gz
 
-cp 941017B-31_L7.LB27_2.fastq /Users/jlab/nick/patho_practice
+cp /Volumes/My\ Book/RNA\ Data/20120920-W18987.FASTQs/941017B-31_L7.LB27_2.fastq.gz 941017B-31_L7.LB27_2.fastq.gz #Nick note the backslashes in My\ Book and RNA\ DATA. these are needed in a directory name anytime you have spaces
 # copies to correct folder under me
-
-cd /Users/jlab/nick/patho_practice
-
-# gunzip 941017B-31_L7.LB27_2.fastq.gz
-
+gunzip -f 941017B-31_L7.LB27_2.fastq.gz # note: I added -f so it will overwrite existing destination file if it exists
 head -4000 941017B-31_L7.LB27_2.fastq > practice.fastq
 
 ### Run pathoscope:
@@ -21,12 +21,12 @@ head -4000 941017B-31_L7.LB27_2.fastq > practice.fastq
 # pathoscope MAP -U $FILENAME [....] -expTag $FILENAME  # outputs fastq1.sam
 #(without tag, outputs outalign.sam)
 
-pathoscope MAP -U practice.fastq -targetIndexPrefix virus_nt_ti -indexDir ~evan/apps/genome_library -btHome /Users/evan/apps/bowtie2-2.1.0/
+$pathoscope MAP -U practice.fastq -targetIndexPrefix virus_nt_ti -indexDir ~evan/apps/genome_library -btHome /Users/evan/apps/bowtie2-2.1.0/
 
 # pathoscope ID -alignFile [$FILENAME.sam] --noUpdatedAlign [?? checkthis]
 # -expTag [add tag]
 
-pathoscope ID -alignFile outalign.sam --noUpdatedAlignFile
+$pathoscope ID -alignFile outalign.sam --noUpdatedAlignFile
 
 ### move a .tsv file to a results folder. remove anything except the
 #.tsv file.
