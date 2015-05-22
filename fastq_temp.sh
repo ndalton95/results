@@ -3,6 +3,12 @@
 #Define pathoscope location
 pathoscope="/Users/evan/apps/pathoscope2/pathoscope/./pathoscope.py"
 
+LIB_DIR="~evan/apps/genome_library"  ## I moved these out of your loop because they are always the same!
+TARGET="virus_nt_ti,fungi_nt_ti,bacteria_nt_ti_0,bacteria_nt_ti_1,bacteria_nt_ti_2" ## added fungi and bacteria to the targets
+FILTER="human_nt_ti_0,human_nt_ti_1" ## add Human as a filter
+BT_HOME="/Users/evan/apps/bowtie2-2.1.0/"
+
+
 cd /Volumes/My\ Book/RNA\ Data/20120920-W18987.FASTQs
 
 for FILE in ./*.fastq.gz
@@ -26,11 +32,8 @@ do
 	echo "beginning PathoMAP"
 	OUT_FILE=${UNZIP_FILE//.fastq}.sam
 	echo $OUT_FILE
-	LIB_DIR="~evan/apps/genome_library"
-	TARGET="virus_nt_ti"
-	BT_HOME="/Users/evan/apps/bowtie2-2.1.0/"
 	
-	$pathoscope MAP -U shortened.fastq -targetIndexPrefix $TARGET -indexDir $LIB_DIR -btHome $BT_HOME -outAlign $OUT_FILE
+	$pathoscope MAP -U shortened.fastq -targetIndexPrefix $TARGET -filterIndexPrefix $FILTER -indexDir $LIB_DIR -btHome $BT_HOME -outAlign $OUT_FILE ## add a 
 	# change "shortened.fastq" to actual file($UNZIP_FILE) after testing
 
 	# PathoID
