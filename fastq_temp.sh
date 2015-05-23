@@ -11,39 +11,55 @@ BT_HOME="/Users/evan/apps/bowtie2-2.1.0/"
 
 cd /Volumes/My\ Book/RNA\ Data/20120920-W18987.FASTQs
 
-for FILE in ./*.fastq.gz
+for FILE in ./*_1.clipped.fastq.gz	#FOR CLIPPED FILES
+#for FILE in ./*_1.fastq.gz	#FOR UNCLIPPED FILES
 do 
 	echo 'Your file path is '$FILE
-	NEW_FILE=$(basename $FILE)
-	echo 'Your file is '$NEW_FILE
-	echo 'copying' $NEW_FILE
-	cp $NEW_FILE /Users/jlab/nick/patho_practice
+	FILE_ONE=$(basename $FILE)
+	FILE_TWO=${FILE_ONE//_1*}_2.clipped.fastq.gz	#FOR CLIPPED FILES
+	#FILE_TWO=${FILE_ONE//_1*}_2.fastq.gz	#FOR UNCLIPPED FILES
+	echo 'Your file one is '$FILE_ONE
+	echo 'your file two is '$FILE_TWO
+	echo 'copying both' $FILE_ONE $FILE_TWO
+
+	cp $FILE_ONE /Users/jlab/nick/patho_practice
+	cp $FILE_TWO /Users/jlab/nick/patho_practice
+
 	cd /Users/jlab/nick/patho_practice
 	echo 'unzipping'
-	gunzip -f $NEW_FILE
+	gunzip -f $FILE_ONE
+	gunzip -f $FILE_TWO
 	echo 'unzipped successfully'
-	UNZIP_FILE=${NEW_FILE//.gz}
-	echo $UNZIP_FILE
+	
+	UNZIP_FILE_ONE=${FILE_ONE//.gz}
+	UNZIP_FILE_TWO=${FILE_TWO//.gz}
+	echo $UNZIP_FILE_ONE
+	echo $UNZIP_FILE_TWO	
 
 	# PathoMap
 	
-	head -400 $UNZIP_FILE > shortened.fastq # to check faster
+	#head -400 $UNZIP_FILE > shortened.fastq # to check faster
 	
 	echo "beginning PathoMAP"
-	OUT_FILE=${UNZIP_FILE//.fastq}.sam
+	OUT_FILE=${FILE_ONE//_1*}.sam
 	echo $OUT_FILE
 	
-	$pathoscope MAP -U shortened.fastq -targetIndexPrefix $TARGET -filterIndexPrefix $FILTER -indexDir $LIB_DIR -btHome $BT_HOME -outAlign $OUT_FILE ## add a 
-	# change "shortened.fastq" to actual file($UNZIP_FILE) after testing
-
+	$pathoscope MAP -1 $UNZIP_FILE_ONE -2 $UNZIP_FILE_TWO -targetIndexPrefix $TARGET -filterIndexPrefix $FILTER -indexDir $LIB_DIR -btHome $BT_HOME -outAlign $OUT_FILE -expTag ${FILE_ONE//_1*} 
+	
 	# PathoID
 
-	#echo "beginning PathoID"
-	#pathoscope ID -alignFile $OUT_FILE -outDir --noUpdatedAlignFile
-
+	echo "beginning PathoID"
+	$pathoscope ID -alignFile $OUT_FILE -expTag ${FILE_ONE//_1*} --noUpdatedAlignFile
+	
+	# Moving tsv to results
+	mv *.tsv results/
+	
+	# Removing Files
+	rm $UNZIP_FILE_ONE
+	rm $UNZIP_FILE_TWO
+	rm *.sam
+	
 	cd /Volumes/My\ Book/RNA\ Data/20120920-W18987.FASTQs #Last line
 
-
-	
 done
 
