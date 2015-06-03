@@ -11,9 +11,18 @@ BT_HOME="/Users/evan/apps/bowtie2-2.1.0/"
 
 cd /Volumes/My\ Book/RNA\ Data/20120920-W18987.FASTQs
 
+counter=0
+
 for FILE in ./*_1.clipped.fastq.gz	#FOR CLIPPED FILES
 #for FILE in ./*_1.fastq.gz	#FOR UNCLIPPED FILES
 do 
+	let counter=counter+1	#counts what file loop is on
+
+	if [ $counter -gt 13 ]	#if statement beginning
+	then
+
+
+
 	echo 'Your file path is '$FILE
 	FILE_ONE=$(basename $FILE)
 	FILE_TWO=${FILE_ONE//_1*}_2.clipped.fastq.gz	#FOR CLIPPED FILES
@@ -60,6 +69,7 @@ do
 	rm *.sam
 	
 	cd /Volumes/My\ Book/RNA\ Data/20120920-W18987.FASTQs #Last line
-
+	
+	fi	#end of if statement
 done
 
